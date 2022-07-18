@@ -1,11 +1,15 @@
 <template>
-  <p>Snake Online!</p>
+  <GameCanvas/>
 </template>
 
 <script>
+import GameCanvas from "@/components/GameCanvas";
 
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    GameCanvas
+  }
 }
 </script>
 
