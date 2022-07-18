@@ -20,21 +20,24 @@ const io = socketIO(server, {
 const snakes = {}
 
 io.on('connection', (socket) => {
-    const currSocket = socket
+    const id = socket.id
     console.log('IO connection')
 
     socket.join('testRoom')
     socket.on('snake', (data) => {
-        snakes[currSocket] = data
-        let sendingData = Object.assign({}, snakes);
-
-
-        delete sendingData[currSocket]
-        socket.broadcast.emit('otherSnakes', snakes)
+        snakes[id] = data
+        const sendingData = {}
+        for (const [key, value] of Object.entries(snakes)) {
+            if (key !== id) {
+                sendingData[key] = value
+            }
+        }
+        socket.emit('otherSnakes', sendingData)
     })
 
     socket.on('disconnect', () => {
-        delete snakes[currSocket]
+        console.log('disconnected')
+        delete snakes[id]
     })
 })
 
