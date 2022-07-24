@@ -31,6 +31,15 @@ export default class Canvas {
         }
         this.ctx.fillStyle = apple.color
         this.ctx.fillRect(apple.x, apple.y, this.config.sizeCell, this.config.sizeCell)
+
+        if (snake) {
+            this.drawNickname(snake)
+        }
+        if (otherSnakes.length) {
+            for (let i = 0; i < otherSnakes.length; i++) {
+                this.drawNickname(otherSnakes[i])
+            }
+        }
     }
 
     drawSnake(snake) {
@@ -44,7 +53,7 @@ export default class Canvas {
         } else {
             gradient = this.ctx.createLinearGradient(snake.x + this.config.sizeCell, 0, snake.x, 0)
         }
-        const colors = getGradient('rgb(204, 43, 94)', 'rgb(117, 58, 136)', snake.tail.length - 1)
+        const colors = getGradient('rgb(155, 89, 182)', 'rgb(52, 152, 219)', snake.tail.length - 1)
         gradient.addColorStop(0, colors[0])
         gradient.addColorStop(1, colors[1])
 
@@ -72,11 +81,23 @@ export default class Canvas {
             }
             this.ctx.fillRect(snake.tail[i].x, snake.tail[i].y, this.config.sizeCell, this.config.sizeCell)
         }
+    }
 
+    drawNickname(snake) {
+        const textWidth = this.ctx.measureText(snake.name).width
+        const padding = 2
+
+        this.ctx.fillStyle = 'rgba(255,255,255,0.5)'
+        this.ctx.fillRect(
+            snake.x - 5 - textWidth - padding,
+            snake.y - this.config.sizeCell - padding,
+            textWidth + padding * 2,
+            this.config.sizeCell + padding * 2
+        )
         this.ctx.fillStyle = '#000'
         this.ctx.font = 'bold 14px Arial'
         this.ctx.textAlign = 'end'
-        this.ctx.fillText(snake.name, snake.x + this.config.sizeCell - 5, snake.y + this.config.sizeCell - 3)
+        this.ctx.fillText(snake.name, snake.x - 5, snake.y - 3)
     }
 
 }

@@ -71,6 +71,7 @@ export default {
 
 <style scoped>
 .game-wrapper {
+  background-color: #ecf0f1;
   display: flex;
   flex-direction: column;
   align-items: center;
